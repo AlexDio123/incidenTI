@@ -4,7 +4,8 @@ Plataforma inteligente de gestión de incidentes TI.
 
 ## Documentación
 
-Ver [implementation-guide.md](./implementation-guide.md) para el plan completo de implementación.
+- [implementation-guide.md](./implementation-guide.md) — plan técnico de implementación
+- [documentacion-analisis.md](./documentacion-analisis.md) — problema, requisitos, historias de usuario y casos de uso
 
 ## Estado actual
 
@@ -17,3 +18,5 @@ npm run dev
 ```
 
 Abrir http://localhost:3000 (login demo en `/login`).
+
+Backend del equipo: [TicketsAPI](https://github.com/VidalLeonardoDeLosSantosRincon/TicketsAPI).
