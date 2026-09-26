@@ -468,7 +468,7 @@ Formato: *Como [actor], quiero [acción] para [beneficio].*
 | **Estado actual** | Listado en mock; creación pendiente en UI y API. |
 | **Postcondiciones** | Catálogo de equipos actualizado. |
 
-### 3.4 Criterios de aceptación (por historia clave)
+### 3.5 Criterios de aceptación (por historia clave)
 
 #### HU-01 — Login
 
