@@ -181,13 +181,180 @@ Cada requisito es verificable (prueba, inspección o medición).
 flowchart LR
   Solicitante --> Web
   Tecnico --> Web
-  Admin --> Web
+  Admin[Administrador] --> Web
   Web --> API[TicketsAPI]
   API --> DB[(Base de datos)]
   API --> IA[Motor IA]
 ```
 
-### 3.2 Historias de usuario
+### 3.2 Diagramas de casos de uso
+
+Los siguientes diagramas representan las interacciones actor–sistema (estilo UML, notación mermaid). Las elipses/rectángulos redondeados son casos de uso; los nodos laterales son actores.
+
+#### 3.2.1 Diagrama general del sistema
+
+```mermaid
+flowchart TB
+  subgraph actoresIzq [Actores]
+    Solicitante([Solicitante])
+    Tecnico([Tecnico])
+    Admin([Administrador])
+  end
+
+  subgraph sistema [Sistema incidenTI]
+    CU01([CU-01 Iniciar sesion])
+    CU02([CU-02 Crear ticket])
+    CU03([CU-03 Consultar y filtrar tickets])
+    CU04([CU-04 Revisar detalle y asistencia IA])
+    CU05([CU-05 Consultar dashboard])
+    CU06([CU-06 Consultar equipos])
+    CU07([CU-07 Gestionar equipos])
+  end
+
+  subgraph actoresDer [Sistemas externos]
+    MotorIA([Motor IA])
+    TicketsAPI([TicketsAPI])
+  end
+
+  Solicitante --> CU01
+  Solicitante --> CU02
+  Solicitante --> CU05
+
+  Tecnico --> CU01
+  Tecnico --> CU02
+  Tecnico --> CU03
+  Tecnico --> CU04
+  Tecnico --> CU05
+  Tecnico --> CU06
+
+  Admin --> CU01
+  Admin --> CU03
+  Admin --> CU05
+  Admin --> CU06
+  Admin --> CU07
+
+  CU01 -.-> TicketsAPI
+  CU02 -.-> TicketsAPI
+  CU03 -.-> TicketsAPI
+  CU04 -.-> TicketsAPI
+  CU05 -.-> TicketsAPI
+  CU06 -.-> TicketsAPI
+  CU07 -.-> TicketsAPI
+
+  CU02 -.->|include| MotorIA
+  CU04 -.->|include| MotorIA
+```
+
+#### 3.2.2 Diagrama — Acceso y visibilidad
+
+```mermaid
+flowchart LR
+  Solicitante([Solicitante])
+  Tecnico([Tecnico])
+  Admin([Administrador])
+
+  CU01([CU-01 Iniciar sesion])
+  CU05([CU-05 Consultar dashboard])
+  CULogout([Cerrar sesion])
+
+  Solicitante --> CU01
+  Tecnico --> CU01
+  Admin --> CU01
+
+  Solicitante --> CU05
+  Tecnico --> CU05
+  Admin --> CU05
+
+  Solicitante --> CULogout
+  Tecnico --> CULogout
+  Admin --> CULogout
+
+  CU01 -.->|precede| CU05
+  CU01 -.->|precede| CULogout
+```
+
+#### 3.2.3 Diagrama — Gestión de tickets
+
+```mermaid
+flowchart TB
+  Solicitante([Solicitante])
+  Tecnico([Tecnico])
+
+  CU02([CU-02 Crear ticket])
+  CU03([CU-03 Consultar y filtrar tickets])
+  CU04([CU-04 Revisar detalle y asistencia IA])
+  CU06b([Marcar en progreso o resuelto])
+  CU07b([Reasignar equipo])
+
+  Solicitante --> CU02
+  Tecnico --> CU02
+  Tecnico --> CU03
+  Tecnico --> CU04
+  Tecnico --> CU06b
+  Tecnico --> CU07b
+
+  CU03 -->|incluye seleccion| CU04
+  CU04 -->|extend| CU06b
+  CU04 -->|extend| CU07b
+```
+
+#### 3.2.4 Diagrama — Asistencia inteligente
+
+```mermaid
+flowchart LR
+  Tecnico([Tecnico])
+  MotorIA([Motor IA])
+
+  CU02([CU-02 Crear ticket])
+  CU08([Clasificar y priorizar])
+  CU11([Asignar equipo automatico])
+  CU04([CU-04 Revisar detalle y asistencia IA])
+  CU09([Ver sugerencias de solucion])
+  CU10([Aceptar o rechazar sugerencia])
+
+  Tecnico --> CU02
+  Tecnico --> CU04
+
+  CU02 -->|include| CU08
+  CU08 -->|include| CU11
+  CU08 -.-> MotorIA
+  CU11 -.-> MotorIA
+
+  CU04 -->|include| CU09
+  CU09 -->|extend| CU10
+  CU09 -.-> MotorIA
+```
+
+#### 3.2.5 Diagrama — Administración de equipos
+
+```mermaid
+flowchart LR
+  Tecnico([Tecnico])
+  Admin([Administrador])
+
+  CU06([CU-06 Consultar equipos])
+  CU07([CU-07 Gestionar equipos])
+
+  Tecnico --> CU06
+  Admin --> CU06
+  Admin --> CU07
+
+  CU07 -->|include| CU06
+```
+
+#### 3.2.6 Matriz actor × caso de uso
+
+| Caso de uso | Solicitante | Técnico | Administrador | Motor IA |
+|-------------|:-----------:|:-------:|:-------------:|:--------:|
+| CU-01 Iniciar sesión | X | X | X | |
+| CU-02 Crear ticket | X | X | | include |
+| CU-03 Consultar y filtrar tickets | | X | X | |
+| CU-04 Revisar detalle y asistencia IA | | X | | include |
+| CU-05 Consultar dashboard | X | X | X | |
+| CU-06 Consultar equipos | | X | X | |
+| CU-07 Gestionar equipos | | | X | |
+
+### 3.3 Historias de usuario
 
 Formato: *Como [actor], quiero [acción] para [beneficio].*
 
@@ -225,7 +392,7 @@ Formato: *Como [actor], quiero [acción] para [beneficio].*
 | HU-13 | Como **admin**, quiero listar los equipos de resolución y su carga para entender la distribución del trabajo. | Alta |
 | HU-14 | Como **admin**, quiero crear y editar equipos para mantener actualizada la estructura de soporte. | Media |
 
-### 3.3 Casos de uso
+### 3.4 Casos de uso
 
 #### CU-01 — Iniciar sesión
 
