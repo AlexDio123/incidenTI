@@ -535,4 +535,126 @@ Formato: *Como [actor], quiero [acción] para [beneficio].*
 
 ---
 
+## 8. Seguridad del sistema
+
+La seguridad constituye un elemento fundamental en la Plataforma Inteligente de Gestión de Incidentes TI, debido a que el sistema administrará información relacionada con usuarios, incidentes tecnológicos, soluciones, equipos técnicos y actividades realizadas dentro de la organización.
+
+Por esta razón, la seguridad será considerada desde las primeras etapas del desarrollo, aplicando diferentes controles orientados a garantizar la confidencialidad, integridad y disponibilidad de la información.
+
+### 8.1 Riesgos de seguridad identificados
+
+Entre los principales riesgos que pueden afectar a la plataforma se encuentran los accesos no autorizados, robo de credenciales, manipulación de tickets, introducción de datos maliciosos, exposición de información sensible, uso indebido de sesiones y pérdida de información.
+
+Para reducir estos riesgos se establecerán mecanismos de autenticación, autorización, validación de datos, gestión de sesiones, registro de eventos y copias de seguridad.
+
+### 8.2 Autenticación
+
+Los usuarios deberán autenticarse antes de acceder a las funcionalidades privadas de la plataforma. Para esto utilizarán sus credenciales de acceso.
+
+Las contraseñas no deberán almacenarse directamente en la base de datos. Se utilizarán mecanismos seguros de hash para protegerlas y reducir las consecuencias de una posible exposición de la información almacenada.
+
+### 8.3 Autorización y control de acceso
+
+Después de autenticar al usuario, el sistema determinará las operaciones que puede realizar dependiendo de su rol.
+
+Se consideran inicialmente tres roles principales:
+
+- **Usuario:** podrá registrar incidentes, consultar sus tickets y revisar su estado.
+- **Técnico:** podrá consultar los incidentes asignados, actualizar su estado y registrar las soluciones aplicadas.
+- **Administrador:** podrá administrar usuarios, técnicos, configuraciones y consultar información general del sistema.
+
+Este mecanismo permitirá aplicar el principio de mínimo privilegio, proporcionando a cada usuario solamente los permisos necesarios para realizar sus funciones.
+
+### 8.4 Validación de entradas
+
+Todos los datos enviados mediante formularios o solicitudes al sistema deberán ser validados antes de ser procesados o almacenados.
+
+Se comprobarán elementos como campos obligatorios, tipos de datos, longitudes y formatos permitidos. Estas validaciones contribuirán a evitar información incorrecta y reducir riesgos asociados con entradas maliciosas.
+
+### 8.5 Protección de información sensible
+
+La comunicación entre los usuarios y la plataforma deberá realizarse utilizando HTTPS, permitiendo proteger la información transmitida entre el cliente y el servidor.
+
+Además, la aplicación evitará mostrar información sensible a usuarios que no posean los permisos correspondientes.
+
+### 8.6 Gestión de sesiones
+
+Una vez autenticado el usuario, el sistema deberá gestionar su sesión de manera segura. Se establecerán mecanismos de expiración de sesión y cierre de sesión para reducir el riesgo de accesos no autorizados desde dispositivos que hayan quedado abiertos.
+
+### 8.7 Registro de eventos
+
+La plataforma mantendrá un registro de las acciones relevantes realizadas dentro del sistema.
+
+Entre los eventos que podrán registrarse se encuentran la creación de tickets, modificaciones de prioridad, asignaciones de técnicos, cambios de estado, cierre de incidentes e intentos de acceso.
+
+Esto permitirá mantener trazabilidad sobre las operaciones realizadas y facilitar la identificación de posibles errores o actividades no autorizadas.
+
+### 8.8 Copias de seguridad
+
+Se realizarán copias de seguridad periódicas de la base de datos para reducir el impacto que podría producir una pérdida accidental de información o una falla técnica.
+
+Los respaldos permitirán recuperar información importante relacionada con usuarios, incidentes y soluciones registradas.
+
+## 9. Implementación
+
+La implementación del proyecto consistirá en desarrollar un prototipo funcional de la Plataforma Inteligente de Gestión de Incidentes TI que represente las principales funcionalidades definidas durante el análisis de requisitos.
+
+El prototipo permitirá demostrar de manera práctica cómo un usuario puede registrar un incidente y cómo este puede ser procesado por la plataforma hasta alcanzar su resolución.
+
+### 9.1 Funcionalidades principales
+
+La implementación deberá contemplar funcionalidades esenciales como:
+
+- Inicio y cierre de sesión.
+- Gestión de usuarios.
+- Registro de incidentes o tickets.
+- Consulta de tickets.
+- Clasificación de incidentes.
+- Definición de prioridad.
+- Asignación de incidentes a técnicos.
+- Actualización del estado de los tickets.
+- Registro de soluciones.
+- Cierre de incidentes.
+- Control de acceso según roles.
+
+Dependiendo del alcance definido por el equipo, también podrán implementarse funcionalidades inteligentes para apoyar la clasificación, priorización o sugerencia de soluciones.
+
+### 9.2 Flujo de funcionamiento
+
+El proceso principal comenzará cuando un usuario acceda a la plataforma y registre un incidente indicando la situación presentada.
+
+El sistema procesará el ticket y permitirá establecer su categoría y prioridad. Posteriormente, el incidente será asignado al técnico o equipo responsable.
+
+El técnico podrá consultar el incidente, actualizar su estado y documentar las acciones realizadas para resolverlo. Finalmente, cuando el problema haya sido solucionado, el ticket podrá ser marcado como resuelto o cerrado.
+
+El flujo general puede representarse de la siguiente manera:
+
+**Inicio de sesión → Registro del ticket → Clasificación → Determinación de prioridad → Asignación → Atención y seguimiento → Registro de solución → Cierre del incidente.**
+
+### 9.3 Correspondencia entre requisitos e implementación
+
+Uno de los aspectos fundamentales durante la implementación será mantener correspondencia entre los requisitos definidos y las funcionalidades desarrolladas.
+
+Por ejemplo, si se establece como requisito que un usuario pueda registrar un incidente, el prototipo deberá incluir una interfaz y funcionalidad que permita crear dicho ticket.
+
+De igual manera, si se establece que solamente los administradores pueden gestionar usuarios, el sistema deberá aplicar los controles de autorización correspondientes.
+
+Esta relación permitirá demostrar que el prototipo desarrollado responde a las necesidades identificadas durante el análisis del sistema.
+
+### 9.4 Integración con los demás componentes
+
+La implementación deberá respetar la arquitectura, modelo de datos, interfaces y requisitos definidos previamente por el equipo.
+
+Las interfaces desarrolladas se conectarán con la lógica de negocio y esta, a su vez, utilizará la base de datos para almacenar usuarios, incidentes, estados, prioridades, asignaciones y soluciones.
+
+De esta manera, el prototipo no funcionará como un elemento independiente, sino como la materialización de los diseños y decisiones establecidos durante las diferentes etapas del proyecto.
+
+### 9.5 Despliegue del prototipo
+
+Una vez implementadas las funcionalidades principales, se preparará el entorno necesario para ejecutar el sistema. Esto incluirá la configuración de la aplicación, conexión con la base de datos y establecimiento de las variables necesarias para su funcionamiento.
+
+Posteriormente, el equipo realizará las pruebas correspondientes antes de presentar la versión funcional del prototipo.
+
+La implementación tendrá como objetivo demostrar que la arquitectura y los diseños planteados pueden convertirse en una solución funcional, segura, mantenible y con capacidad de evolucionar según futuras necesidades de la organización.
+
 *Documento elaborado para el análisis académico del proyecto. Debe actualizarse cuando se implementen creación de tickets/equipos, pipeline IA completo y despliegue en producción.*
