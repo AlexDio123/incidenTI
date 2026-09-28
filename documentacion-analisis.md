@@ -657,4 +657,57 @@ Posteriormente, el equipo realizará las pruebas correspondientes antes de prese
 
 La implementación tendrá como objetivo demostrar que la arquitectura y los diseños planteados pueden convertirse en una solución funcional, segura, mantenible y con capacidad de evolucionar según futuras necesidades de la organización.
 
+## 13. Resultados
+El desarrollo del proyecto incidenTI — Plataforma inteligente de gestión de incidentes TI permitió establecer una base tecnológica y documental para la administración centralizada de incidentes dentro de una organización. A partir del análisis del problema se identificó la necesidad de reducir la dependencia del triaje manual, estandarizar la clasificación y priorización de los incidentes, mejorar su asignación a los equipos correspondientes y facilitar la reutilización del conocimiento generado durante la resolución de casos anteriores.
+
+Como resultado del proyecto se definieron los requisitos funcionales y no funcionales de la solución, los actores involucrados, las historias de usuario y los principales casos de uso. Esto permitió representar de manera organizada las necesidades del solicitante, los técnicos, los administradores y los equipos responsables de atender los incidentes.
+En el componente de presentación se desarrolló un frontend utilizando Next.js, React y TypeScript, que permite demostrar la experiencia propuesta para los usuarios. Se construyeron interfaces para inicio de sesión, dashboard, listado y detalle de tickets, creación de nuevos tickets y consulta de equipos. También se incorporaron visualmente elementos relacionados con la asistencia inteligente, como clasificación, nivel de confianza, justificación y sugerencias de solución. En el estado actual del proyecto estas funcionalidades utilizan datos de demostración, por lo que constituyen una representación de la experiencia de usuario prevista.
+
+En el backend se obtuvo una estructura funcional basada en ASP.NET Core, organizada mediante las capas Domain, Application, Infrastructure y API. Esta organización permite separar las responsabilidades relacionadas con el dominio, la lógica de aplicación, el acceso a los datos y la exposición de servicios mediante HTTP. Se implementaron mecanismos para autenticación mediante JWT, consulta de tickets, obtención de resúmenes operativos, consulta de equipos y administración de usuarios.
+
+Otro resultado importante fue la implementación de una capa de persistencia mediante Entity Framework Core y SQL Server. El modelo de datos permite representar usuarios, roles, equipos, miembros de equipos, tickets, estados, prioridades y categorías, utilizando claves y relaciones que favorecen la integridad y reducen la duplicidad de información.
+
+En materia de seguridad, la solución incorpora autenticación basada en tokens JWT y mecanismos de autorización para proteger el acceso a determinados recursos. Además, la estructura del proyecto contempla separación de roles y responsabilidades, permitiendo evolucionar posteriormente hacia controles de acceso más específicos para solicitantes, técnicos y administradores.
+
+El proyecto también incorporó una estructura de pruebas unitarias orientada a repositorios, servicios y controladores. Esto proporciona una base para verificar de forma independiente componentes como TicketRepository, TicketService, TeamsController y AuthController, contribuyendo a detectar errores durante la evolución del sistema.
+
+Desde el punto de vista de Ingeniería de Software, se obtuvieron además modelos y documentación que describen los casos de uso, clases principales, secuencias de interacción, arquitectura, componentes, flujo de gestión de incidentes, estructura de la base de datos, requisitos, seguridad, calidad, riesgos y organización del proyecto. Esto permite comprender tanto la visión funcional como la estructura técnica de la solución.
+
+No obstante, el resultado actual debe considerarse como una base funcional en proceso de integración y evolución, y no como un producto completamente terminado. El frontend todavía utiliza datos mock en varias de sus pantallas y debe conectarse con TicketsAPI. También permanecen pendientes las operaciones completas de escritura para gestionar estados, prioridades, asignaciones y cierre de tickets, así como la persistencia de algunos elementos relacionados con la línea de tiempo, asignaciones y sugerencias.
+
+De igual manera, aunque el proyecto contempla un componente inteligente para apoyar la clasificación, priorización, asignación y recomendación de soluciones, la versión analizada todavía no cuenta con el pipeline completo de inteligencia artificial conectado al backend y a la base de datos. Por esta razón, no se presentan como resultados obtenidos reducciones cuantificables del tiempo de resolución, mejoras del MTTR o porcentajes de precisión de la clasificación automática, ya que estas métricas deberán medirse cuando exista una integración funcional completa.
+
+
+## 14. Conclusiones
+El proyecto incidenTI permitió demostrar la aplicación integrada de diferentes conocimientos de Ingeniería de Software para abordar un problema frecuente en las organizaciones: la gestión, clasificación y seguimiento de incidentes tecnológicos. La solución diseñada plantea una alternativa para centralizar la información de soporte y establecer un flujo de trabajo más organizado desde el registro del incidente hasta su resolución y cierre.
+
+A nivel técnico, una de las principales fortalezas del proyecto es la separación de responsabilidades entre frontend, backend, lógica de aplicación, dominio y persistencia. Esta estructura proporciona una base adecuada para continuar desarrollando el sistema sin concentrar toda la lógica en un único componente y facilita aspectos como el mantenimiento, las pruebas y la incorporación de nuevas funcionalidades.
+
+El modelado realizado también permitió identificar al ticket como la entidad central del sistema y relacionarlo con usuarios, estados, prioridades, categorías y equipos. La utilización de una base de datos relacional junto con Entity Framework Core proporciona una estructura adecuada para mantener la información de manera organizada y consistente.
+
+Asimismo, la incorporación de autenticación JWT, repositorios, servicios, DTOs, inyección de dependencias y pruebas unitarias demuestra que el proyecto no se limita al diseño visual de una aplicación, sino que posee una base backend sobre la cual puede construirse una solución operativa de mayor alcance.
+
+La propuesta de incorporar inteligencia artificial representa uno de los principales elementos de evolución del proyecto. La clasificación automática, priorización, asignación y sugerencia de soluciones tienen el potencial de disminuir tareas repetitivas realizadas por el personal de soporte y facilitar la reutilización del conocimiento. Sin embargo, estas capacidades deben continuar considerándose como funcionalidades en desarrollo hasta que el motor inteligente se encuentre integrado y sus resultados puedan ser validados mediante pruebas y métricas reales.
+
+IncidenTI alcanzó el objetivo de establecer y documentar una base tecnológica coherente para una plataforma de gestión inteligente de incidentes TI, demostrando la viabilidad del modelo funcional y de la arquitectura propuesta. El principal reto para una siguiente etapa consiste en transformar los componentes actualmente separados y demostrativos en una solución completamente integrada, conectando el frontend con la API, completando las operaciones de negocio pendientes e incorporando de manera efectiva el componente de inteligencia artificial.
+
+## 15. Recomendaciones
+1. Implementar las operaciones pendientes sobre los tickets. Incorporar los endpoints necesarios para crear tickets desde la interfaz, actualizar estado y prioridad, realizar asignaciones y reasignaciones, registrar la resolución y cerrar los incidentes.
+
+2. Completar el modelo de persistencia. Finalizar las relaciones y configuraciones correspondientes a asignaciones, eventos de la línea de tiempo, clasificación y sugerencias de solución, garantizando que el historial completo del incidente quede almacenado.
+
+3. Integrar y validar el componente de inteligencia artificial. Conectar un servicio real para clasificación, priorización y generación de sugerencias, manteniendo siempre la posibilidad de que el técnico confirme, rechace o corrija las recomendaciones realizadas automáticamente.
+
+4. Definir métricas para evaluar los beneficios del sistema. Una vez integrada la solución, medir indicadores como tiempo de primera respuesta, MTTR, porcentaje de tickets correctamente clasificados, cantidad de reasignaciones, precisión de las prioridades sugeridas y aceptación de recomendaciones de solución.
+
+5. Ampliar la estrategia de pruebas. Complementar las pruebas unitarias existentes con pruebas de integración, pruebas end-to-end, seguridad, rendimiento y regresión, verificando especialmente el flujo completo desde la creación de un ticket hasta su resolución.
+
+6. Fortalecer la seguridad antes de un despliegue productivo. Aplicar autorización por roles, administrar secretos y claves fuera del código fuente, configurar correctamente CORS para los dominios reales y revisar la protección de datos sensibles.
+
+7. Realizar un despliegue inicial en un ambiente controlado. Antes de utilizar la solución en producción, disponer de un ambiente de pruebas o staging que permita validar el comportamiento del frontend, API, base de datos y servicios inteligentes trabajando en conjunto.
+
+8. Implementar monitoreo y trazabilidad. Registrar errores, tiempos de respuesta, cambios de estado, acciones de usuarios y eventos relevantes para facilitar la detección de problemas y el seguimiento de los incidentes.
+
+9. Mantener actualizada la documentación técnica. A medida que se complete la integración y se incorporen nuevas funcionalidades, actualizar los diagramas, endpoints, modelos de datos, casos de prueba y procedimientos de despliegue para que la documentación continúe reflejando el estado real de la solución.
+
 *Documento elaborado para el análisis académico del proyecto. Debe actualizarse cuando se implementen creación de tickets/equipos, pipeline IA completo y despliegue en producción.*
