@@ -534,6 +534,182 @@ Formato: *Como [actor], quiero [acción] para [beneficio].*
 - Backend: [VidalLeonardoDeLosSantosRincon/TicketsAPI](https://github.com/VidalLeonardoDeLosSantosRincon/TicketsAPI)  
 
 ---
+## 7. Diseño de Interfaces
+
+Acontinuación se estaran presentando los prototipos o diseños de las principales pantallas de la aplicación.
+
+A contunuacion estaremos presentando una vista preliminar 
+de lo que se espera quer sea nuestro MVP funcional. 
+
+El mismo de forma resumida Consta de una APP (SPA) la cual se conecta a una REST API para la busqueda y almacenado de información.
+
+## 7.1 Inicio de sesión
+
+Con respecto a nuestro inicio de sesión para este prototipo es una vista simplificada solo con lo necesario
+que en este caso:
+
+- Correo.
+- Contraseña.
+
+Por medio de esta pantalla de donde todo inicia, este proceso se conecta con nuestra REST API para generar el inicio de sesión, 
+donde se validan los siguientes parámetros:
+
+- **Autentición**
+  - Se valida que la informacion este correcta y si cooncide con un usuario activo y existente.
+- **Autorización**
+  - Se verifican el origin de la petición para saber si el mismo es permitido
+  - Se Verifican los roles y permisos del usuaurio.
+  
+Si todo lo antes mencionado ocurre con éxito entonces el servicio nos retorna un objeto
+JSON con el token de acceso de la sesión y uno que otra datos más relevante.
+
+## 7.2 Pantalla principal
+En la pantalla principal contamos con una vista general del centro de operaciones.
+
+Esta nos incluye:
+
+- **Panel general:** En donde podemos visualizar:
+  - Cantidad de tickets que aun estan abiertos.
+  - Cantidad de tickets abiertos con prioridad Crítica (P1).
+  - Cantidad de tickets abiertos que ya estan en progreso.
+  - Cantidad de tickets resueltos.
+
+- **Listado de actividad reciente:**
+  En este se presentan una lista de los últimos 5 tickets más recientes, contando con información 
+  como:
+
+  - Identificador.
+  - Título.
+  - Prioridad.
+  - Estado.
+  - Equipo al que esta asignado.
+  - Fecha del última actualización.
+
+## 7.3 Gestión de información
+En esta pantalla contamos con la vista general de la gestión de tickets, contando con una cola
+de incidentes con su clasificación y prioridad.
+
+A nivel generla esta vista está constituida con:
+
+- **Consulta de tickets por:**
+
+  - Texto dinamico (Identificador, Título o Solicitante).
+  - Estado.
+  - Prioridad.
+  - Equipo Asignado.
+
+- **Lista de incidentes con información de:**
+
+  - Identificador.
+  - Título.
+  - Categoría.
+  - Prioridad.
+  - Estado.
+  - Equipo al que está asignado.
+  - Técnico que tiene el caso.
+  - Fecha del última actualización.
+
+- **Acciones como:**
+  - Poder crear un nuevo ticket.
+  - Ver detalle de cada incidente, si hay algun comentario, sugerencia y que esta ocurriendo actualmente con el caso.
+
+## 7.4 Formularios principales
+Nuestro formulario principal sería el de creación de los tickets de incidicentes.
+
+Este formulario solicita los siguientes datos:
+
+  - Título.
+  - Descripción.
+  - Categoría sugerida (opcional).
+  - Equipo preferido (opcional).
+
+  En caso de no indicar una categoría o un equipo prefirido, el sistema se encargará de asignarselos automáticamente en base a la información del caso.
+
+## 7.5 Consultas y Reportes
+Dentro de las principales consultas y reportes tenemos:
+
+- **Consulta de detalles de tickets**
+  - Detalles de la solución.
+  - Linea de tiempo de eventos de los tickets.
+- **Reporte de tickets asignados a miembros de los equipos.**
+  - Listado de equipos de trabajo.
+  - Cantidad de tickets abirtos asignados a los equipos.
+
+Por medio de las consultas antes mencionadas se puede realizar un ánalisis rápido y entender de forma sencilla que tan bien o mal esta llevandose a cabo la gestión de los incidentes. 
+
+## 7.6 Swagger REST API + JWT
+Para el prototipo de nuestro servicio web se creo una REST API en **.NET 7** estructura por capas donde cada capa de implementación permite un mejor escalabilidad y mantenimiento,  A nivel de seguridad api usa JWT para la autenticación de los usuarios, tomando en cuenta no solo si estos existen si no que tambien validando sus roles y permisos.
+
+
+## 7.7 CLEAN ARCHITECTURE + SOLID
+El patrón arquitectónico de "Arquitectura Limpia" se fundamenta en las buenas practicas del diseño de software, 
+con respecto a la reglas de dependencias, este patrón busca que el código de las capas internas nunca dependa de nada de las capas externas.
+
+### 7.7.1 Capas del proyecto
+---
+
+1. **Domain (Dominio):** Esta capa contiene la lógica de negocio pura y las reglas fundamentales que aplican a la empresa o producto.
+
+- **Capas de las que depende:**  
+  
+  - Ninguna.
+
+<br/>
+
+2. **Application (Aplicación):** Esta capa contiene la lógica de aplicación específica del sistema, encargandose de orquestar cómo interactúan los elementos de la capa de dominio, buscando cumplir con los requerimientos de los usuarios.
+
+- **Capas de las que depende:**  
+  
+  - Depende únicamente de la capa **Domain**.
+
+<br/>
+
+3. **Infrastructure (Infraestructura):** En esta capa se implementan los detalles concretos de tecnología los cuales pueden ir cambiando con el paso del tiempo.
+
+- **Capas de las que depende:**  
+  
+  - Depende de **Application** y **Domain**.
+
+<br/>
+
+4. **API / Presentation (Presentación):** Esta capa tiene el papael de mediador entre los usuarios u otros sistemas externos y la capa de aplicación.
+
+- **Capas de las que depende:**  
+  
+  - Depende de la capa  **Application**.
+
+<br/>
+
+---
+
+## 7.8 Entity Framework + LINQ + Sql Server
+El uso de la combinación de Entity Framework, LINQ y SQL Server en nuestro proyecto nos ofrece: 
+
+- **Productividad:** Desarrollo más rápido gracias al tipado fuerte, autocompletado y a la eliminación de código SQL repetitivo. 
+
+<br/>
+
+- **Integración y Rendimiento:** Traducción eficiente de ``C#`` a ``T-SQL`` optimizado, con soporte nativo para tipos avanzados de SQL Server y consultas de solo lectura (``.AsNoTracking()``). 
+
+<br/>
+
+- **Mantenibilidad:** Control de versiones del esquema de la base de datos mediante Migrations (Code-First) y prevención automática de inyección SQL.
+
+<br/>
+
+---
+## 7.9 Recursos del Repositorio 
+
+- **Web APP:** [incidenTI](https://github.com/AlexDio123/incidenTI)
+
+- **REST API:** [TicketsAPI](https://github.com/VidalLeonardoDeLosSantosRincon/TicketsAPI)
+
+- **Scripts SQL:** 
+  - Para crear las estructuras: [database-configuration.sql](https://github.com/VidalLeonardoDeLosSantosRincon/TicketsAPI/blob/main/Scripts.SQL/database-configuration.sql)
+
+  - Para cargar los datos: [database-data.sql](https://github.com/VidalLeonardoDeLosSantosRincon/TicketsAPI/blob/main/Scripts.SQL/database-data.sql)
+
+---
 
 ## 8. Seguridad del sistema
 
@@ -711,3 +887,37 @@ IncidenTI alcanzó el objetivo de establecer y documentar una base tecnológica 
 9. Mantener actualizada la documentación técnica. A medida que se complete la integración y se incorporen nuevas funcionalidades, actualizar los diagramas, endpoints, modelos de datos, casos de prueba y procedimientos de despliegue para que la documentación continúe reflejando el estado real de la solución.
 
 *Documento elaborado para el análisis académico del proyecto. Debe actualizarse cuando se implementen creación de tickets/equipos, pipeline IA completo y despliegue en producción.*
+
+<br/>
+
+---
+
+## Referencias Bibliográficas
+
+**Microsoft. (s. f.).**<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Common web application architectures.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Microsoft Learn.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recuperado de https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
+
+**Microsoft. (s. f.).**<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Web APIs with ASP.NET.<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recuperado de https://dotnet.microsoft.com/en-us/apps/aspnet/apis
+
+**GeeksforGeeks. (2024, 27 de junio).**<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What is Single Page Application?<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recuperado de https://www.geeksforgeeks.org/javascript/what-is-single-page-application/
+
+**Lucidchart. (s. f.).**<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qué es un diagrama entidad-relación.<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recuperado de https://lucid.co/es/diagrama/diagrama-entidad-relacion/tutorial
+
+**Raman, A. (2023, 21 de septiembre).**<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Entity Framework Core in ASP.NET Core.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C# Corner.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recuperado de https://www.c-sharpcorner.com/article/entity-framework-core-in-asp-net-core
+
+**Tutoriales Programación Ya. (s. f.).**<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQL Server Ya.<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recuperado de https://tutorialesprogramacionya.com/sqlserverya/
+
+---
